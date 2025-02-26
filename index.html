@@ -19,6 +19,21 @@
         .video-overlay video {
             max-width: 90%; max-height: 90%;
         }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px;
+            width: auto; 
+            text-align: center;
+        }
         .section { padding: 50px 20px; text-align: center; }
         .swiper-container { width: 100%; height: 300px; }
         #backgroundMusic { display: none; }
@@ -35,8 +50,15 @@
     </style>
 </head>
 <body>
+
+    <div class="modal-overlay" id="permissionModal">
+        <div class="modal-content">
+            <p>Para una mejor experiencia, permite la reproducción automática del video.</p>
+            <button class="btn btn-primary" onclick="startVideo()">Aceptar</button>
+        </div>
+    </div>
     <div class="video-overlay" id="videoOverlay">
-        <video id="introVideo" autoplay playsinline>
+        <video id="introVideo" playsinline>
             <source src="src/video/invitacion.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
@@ -87,6 +109,13 @@
                     requestAnimationFrame(frame);
                 }
             })();
+        }
+
+        function startVideo() {
+            document.getElementById('permissionModal').style.display = 'none';
+            document.getElementById('videoOverlay').style.display = 'flex';
+            var video = document.getElementById('introVideo');
+            video.play();
         }
         
         document.getElementById('introVideo').addEventListener('ended', function() {
