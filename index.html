@@ -54,24 +54,25 @@
         <h2><b>Detalles de la Fiesta</b></h2>
         <p><strong>Dirección: </strong><a href="https://maps.app.goo.gl/JQ7e2jwJgwBKU7YA9" target="_blank"> Mi
                 canton</a></p>
-        <p><strong>Horario:</strong> 6:00 PM - 11:00 PM</p>
-        <p><strong>Comida:</strong> Pizza, pastel y refrescos</p>
+        <p><strong>Horario:</strong> A la hora que salga este muñecote te chambear</p>
+        <p><strong>o las 6:30 pm para que lleguen a esa hora o las 7:00 pm</strong></p>
+        <p><strong>Comida:</strong> Carnita asada 🥩 Pisto a morir 🍻 Tachas y Perico 🦜 y más mis queridos lame-cazuelas 👅</p>
         <p><a href="https://www.amazon.com/wishlist" target="_blank" class="btn btn-warning">Ver Wishlist</a></p>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
-
         var videoDuration = 0;
         var closeAvailableIn = 0;
+        var confettiInterval;
 
         function launchConfetti() {
-            var duration = 5000;
+            var duration = 3000;
             var end = Date.now() + duration;
             (function frame() {
                 confetti({
-                    particleCount: 7,
-                    spread: 180,
+                    particleCount: 5,
+                    spread: 160,
                     origin: { y: 0.6 }
                 });
                 if (Date.now() < end) {
@@ -87,20 +88,25 @@
             video.play();
 
             videoDuration = video.duration;  // Guardamos la duración total del video
-            closeAvailableIn = 30; // Tiempo en segundos para habilitar el botón de cerrar
+            closeAvailableIn = 1; // Tiempo en segundos para habilitar el botón de cerrar
+
             var timeMessage = document.getElementById('timeMessage');
-            setInterval(function() {
+            setInterval(function () {
                 if (closeAvailableIn > 0) {
                     timeMessage.textContent = `Puedes cerrar el video en ${closeAvailableIn} segundos.`;
                     closeAvailableIn--;
                 } else {
                     document.getElementById('closeVideoBtn').style.display = 'block';
-                    timeMessage.textContent = 'El video se puede cerrar ahora.';
+                    timeMessage.textContent = 'Puedes verlo completo o no mediocre? 😈';
                 }
             }, 1000);
+            // Lanzar confetti cada 10 segundos
+            confettiInterval = setInterval(launchConfetti,5000);
         }
 
         function closeVideo() {
+            var video = document.getElementById('introVideo');
+            video.pause();  // Detenemos la reproducción del video
             document.getElementById('videoOverlay').style.display = 'none';
             document.getElementById('backgroundMusic').play();
             launchConfetti();
