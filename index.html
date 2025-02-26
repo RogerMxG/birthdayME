@@ -20,12 +20,14 @@
         </div>
     </div>
     <div class="video-overlay" id="videoOverlay">
+        <div id="timeMessage" class="time-message"></div>
         <video id="introVideo" playsinline>
             <source src="src/video/invitacion.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
+        <button class="close-btn" id="closeVideoBtn" onclick="closeVideo()">Cerrar</button>
     </div>
-    
+
     <audio id="backgroundMusic" loop>
         <source src="src/music/cumbia.mp3" type="audio/mpeg">
         Tu navegador no soporta el audio.
@@ -59,13 +61,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
+
+        var videoDuration = 0;
+        var closeAvailableIn = 0;
+
         function launchConfetti() {
             var duration = 5000;
             var end = Date.now() + duration;
             (function frame() {
                 confetti({
-                    particleCount: 5,
-                    spread: 160,
+                    particleCount: 7,
+                    spread: 180,
                     origin: { y: 0.6 }
                 });
                 if (Date.now() < end) {
@@ -79,6 +85,25 @@
             document.getElementById('videoOverlay').style.display = 'flex';
             var video = document.getElementById('introVideo');
             video.play();
+
+            videoDuration = video.duration;  // Guardamos la duración total del video
+            closeAvailableIn = 30; // Tiempo en segundos para habilitar el botón de cerrar
+            var timeMessage = document.getElementById('timeMessage');
+            setInterval(function() {
+                if (closeAvailableIn > 0) {
+                    timeMessage.textContent = `Puedes cerrar el video en ${closeAvailableIn} segundos.`;
+                    closeAvailableIn--;
+                } else {
+                    document.getElementById('closeVideoBtn').style.display = 'block';
+                    timeMessage.textContent = 'El video se puede cerrar ahora.';
+                }
+            }, 1000);
+        }
+
+        function closeVideo() {
+            document.getElementById('videoOverlay').style.display = 'none';
+            document.getElementById('backgroundMusic').play();
+            launchConfetti();
         }
 
         document.getElementById('introVideo').addEventListener('ended', function () {
